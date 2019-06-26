@@ -15,9 +15,9 @@ class Server
     public function method()
     {
         $url = $_SERVER['REQUEST_URI'];
-        list($s, $a, $d, $db, $table, $path) = explode('/', $url, 6);
-
-        switch($this->method)
+        list($s, $u, $r, $ser, $a, $fol) = explode('/', $url, 6);
+        echo $s." - ".$u." - ".$r." - ".$ser." - ".$a." - ".$fol;
+        /*switch($this->method)
         {
             case 'GET':
                 $this->setMethod('get'.ucfirst($table), explode('/', $path));
@@ -33,14 +33,14 @@ class Server
                 break;
             default:
                 return false;
-        }
+        }*/
     }
 
     function setMethod($method, $param=false)
     {
         if ( method_exists($this, $method) )
         {
-            call_user_func(......);
+            //call_user_func(......);
         }
     }
 
