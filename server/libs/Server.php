@@ -1,86 +1,133 @@
 <?php
-include ('Sql.php');
+include ('Cars.php');
 include ('../../config.php');
 
 class Server
 {
-    private $sql;
     private $server;
+    private $method;
+    private $url;
+    private $cars;
 
     public function __construct()
     {
-        $this->sql = new Sql();
+        $this->method = $_SERVER['REQUEST_METHOD'];
+        $this->url = $_SERVER['REQUEST_URI'];
+        $this->cars = new Cars();
     }
 
-    public function method()
+    public function methodChoose()
     {
-        $url = $_SERVER['REQUEST_URI'];
-        list($s, $u, $r, $ser, $a, $fol) = explode('/', $url, 6);
-        echo $s." - ".$u." - ".$r." - ".$ser." - ".$a." - ".$fol;
-        /*switch($this->method)
+        list($s, $u, $r, $ser, $a, $fol, $meth,$view) = explode('/', $this->url, 8);
+        switch($this->method)
         {
             case 'GET':
-                $this->setMethod('get'.ucfirst($table), explode('/', $path));
+                $this->setMethod('get'.ucfirst($meth), $view);
                 break;
             case 'DELETE':
-                $this->setMethod('delete'.ucfirst($table), explode('/', $path));
+                $this->setMethod('delete'.ucfirst($meth).'()', $view);
                 break;
             case 'POST':
-                $this->setMethod('post'.ucfirst($table), explode('/', $path));
+                $this->setMethod('post'.ucfirst($meth).'()', $view);
                 break;
             case 'PUT':
-                $this->setMethod('put'.ucfirst($table), explode('/', $path));
+                $this->setMethod('put'.ucfirst($meth).'()', $view);
                 break;
             default:
                 return false;
-        }*/
+        }
     }
 
-    function setMethod($method, $param=false)
+    private function setMethod($method, $param=false)
     {
-        if ( method_exists($this, $method) )
+        if (method_exists($this->cars, $method))
         {
-            //call_user_func(......);
+            $carsRes = call_user_func([$this->cars,$method], $param);
+            if(!$param || $param=='.json'){
+                $this->makeJson($carsRes);
+            }elseif($param=='.txt'){
+                $this->makeTxt($carsRes);
+            }elseif($param=='.xml'){
+                $this->makeXml($carsRes);
+            }elseif($param=='.html'){
+                $this->makeHtml($carsRes);
+            }
         }
     }
 
-    public function cars()
+    private function makeJson($arr)
     {
-        $cars = $this->sql->getCars();
-        if($cars){
-            return $cars;
-        }else{
-            return "There is some problem with cars. Please, try again later!";
-        }
+        echo json_encode($arr);
     }
 
-    public function car($id)
+    private function makeTxt($arr)
     {
-        $carInfo = $this->sql->getCar($id);
-        if($carInfo){
-            return $carInfo;
-        }else{
-            return "There is some problem with car. Please, try again later!";
-        }
+        print_r($arr);
     }
 
-    public function searchResult($brand, $model, $year, $engine, $speed, $color, $priceFrom, $priceTo)
+    private function makeXml($arr)
     {
-        $info = $this->sql->getSearchResult($brand, $model, $year, $engine, $speed, $color, $priceFrom, $priceTo);
-        if($info){
-            return $info;
-        }else{
-            return "There is some problem with search result. Please, try again later!";
-        }
+        $data = array('total_stud' => 500);
+        $xmlData = new SimpleXMLElement('<?xml version="1.0"?><car></car>');
+        $this->arrayToXml($arr,$xmlData);
+        $result = $xmlData->asXML();
+        echo $result;
     }
 
-    public function buy($car_id, $name, $surname, $payment)
+    private function makeHtml($arr)
     {
-        $buyInfo = $this->sql->postBuy($car_id, $name, $surname, $payment);
-        if($buyInfo){
-            return $buyInfo;
-        }else{
-            return "There is some problem with buying proccess. Please, try again later!";
+        $res = '<table>';
+        if (is_array($arr))
+        {
+            $first = $arr[0];
+            $res .= '<tr>';
+            foreach ($first as $key => $val)
+            {
+                $res .= '<th>' . $key . '</th>';
+            }
+            $res .= '</tr>';
+            foreach ($arr as $item)
+            {
+                $res .= '<tr>';
+                foreach ($item as $field)
+                {
+                    $res .= '<td>' . $field . '</td>';
+                }
+            }
+            $res .= '</tr>';
         }
+        elseif (is_object($arr))
+        {
+            $first = $arr;
+            $res .= '<tr>';
+            foreach ($first as $key => $val)
+            {
+                $res .= '<th>' . $key . '</th>';
+            }
+            $res .= '</tr>';
+            $res .= '<tr>';
+            foreach ($arr as $field)
+            {
+                $res .= '<td>' . $field . '</td>';
+            }
+            $res .= '</tr>';
+        }
+        $res .= '</table>';
+        echo $res;
     }
+
+    private function arrayToXml( $data, &$xmlData ) {
+        foreach( $data as $key => $value ) {
+            if( is_numeric($key) ){
+                $key = 'item'.$key;
+            }
+            if( is_array($value) ) {
+                $subnode = $xmlData->addChild($key);
+                $this->arrayToXml($value, $subnode);
+            } else {
+                $xmlData->addChild("$key",htmlspecialchars("$value"));
+            }
+         }
+    }
+    
 }

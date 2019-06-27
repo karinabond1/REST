@@ -2,10 +2,10 @@
 
 class Sql
 {
-    public function __construct()
+    /*public function __construct()
     {
         
-    }
+    }*/
 
     public function getCars()
     {
@@ -16,7 +16,6 @@ class Sql
             $mysql = new PDO("mysql:host=" . HOST . ";port=" . PORT . ";dbname=" . DATABASE, USER_NAME, USER_PASS);
             $mysql->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-
             $selectCars = $mysql->prepare("SELECT autoshop_cars.id,autoshop_cars.model, autoshop_brand.brand FROM autoshop_cars inner join autoshop_brand on autoshop_cars.brand_id=autoshop_brand.id;");
             $selectCars->execute();
 
@@ -26,10 +25,11 @@ class Sql
                 $indexCars++;
             }
 
-        } catch (PDOException $e) {
+        }catch (PDOException $e) {
             echo $str = 'Error:+ ' . $e->getMessage();
         }
         return $cars;
+        //return false;
     }
 
     public function getCar($id)
