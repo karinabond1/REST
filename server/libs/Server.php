@@ -1,5 +1,6 @@
 <?php
-include ('Cars.php');
+include ('Shop.php');
+include ('Viewer.php');
 include ('../../config.php');
 
 class Server
@@ -7,127 +8,44 @@ class Server
     private $server;
     private $method;
     private $url;
-    private $cars;
+    private $viewer;
 
     public function __construct()
     {
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->url = $_SERVER['REQUEST_URI'];
-        $this->cars = new Cars();
+        $this->viewer = new Viewer();
     }
 
     public function methodChoose()
     {
-        list($s, $u, $r, $ser, $a, $fol, $meth,$view) = explode('/', $this->url, 8);
+        list($s, $u, $r, $ser, $a, $class, $meth, $view) = explode('/', $this->url, 8);
         switch($this->method)
         {
             case 'GET':
-                $this->setMethod('get'.ucfirst($meth), $view);
+                $this->setMethod(ucfirst($class),'get'.ucfirst($meth), $view);
                 break;
             case 'DELETE':
-                $this->setMethod('delete'.ucfirst($meth).'()', $view);
+                $this->setMethod(ucfirst($class),'delete'.ucfirst($meth).'()', $view);
                 break;
             case 'POST':
-                $this->setMethod('post'.ucfirst($meth).'()', $view);
+                $this->setMethod(ucfirst($class),'post'.ucfirst($meth).'()', $view);
                 break;
             case 'PUT':
-                $this->setMethod('put'.ucfirst($meth).'()', $view);
+                $this->setMethod(ucfirst($class),'put'.ucfirst($meth).'()', $view);
                 break;
             default:
                 return false;
         }
     }
 
-    private function setMethod($method, $param=false)
+    private function setMethod($class, $method, $view=false)
     {
-        if (method_exists($this->cars, $method))
+        $obj = new $class();
+        if (method_exists($obj, $method))
         {
-            $carsRes = call_user_func([$this->cars,$method], $param);
-            if(!$param || $param=='.json'){
-                $this->makeJson($carsRes);
-            }elseif($param=='.txt'){
-                $this->makeTxt($carsRes);
-            }elseif($param=='.xml'){
-                $this->makeXml($carsRes);
-            }elseif($param=='.html'){
-                $this->makeHtml($carsRes);
-            }
+            $carsRes = call_user_func([$obj, $method], $view);
+            $this->viewer->view($carsRes, $view);            
         }
-    }
-
-    private function makeJson($arr)
-    {
-        echo json_encode($arr);
-    }
-
-    private function makeTxt($arr)
-    {
-        print_r($arr);
-    }
-
-    private function makeXml($arr)
-    {
-        $data = array('total_stud' => 500);
-        $xmlData = new SimpleXMLElement('<?xml version="1.0"?><car></car>');
-        $this->arrayToXml($arr,$xmlData);
-        $result = $xmlData->asXML();
-        echo $result;
-    }
-
-    private function makeHtml($arr)
-    {
-        $res = '<table>';
-        if (is_array($arr))
-        {
-            $first = $arr[0];
-            $res .= '<tr>';
-            foreach ($first as $key => $val)
-            {
-                $res .= '<th>' . $key . '</th>';
-            }
-            $res .= '</tr>';
-            foreach ($arr as $item)
-            {
-                $res .= '<tr>';
-                foreach ($item as $field)
-                {
-                    $res .= '<td>' . $field . '</td>';
-                }
-            }
-            $res .= '</tr>';
-        }
-        elseif (is_object($arr))
-        {
-            $first = $arr;
-            $res .= '<tr>';
-            foreach ($first as $key => $val)
-            {
-                $res .= '<th>' . $key . '</th>';
-            }
-            $res .= '</tr>';
-            $res .= '<tr>';
-            foreach ($arr as $field)
-            {
-                $res .= '<td>' . $field . '</td>';
-            }
-            $res .= '</tr>';
-        }
-        $res .= '</table>';
-        echo $res;
-    }
-
-    private function arrayToXml( $data, &$xmlData ) {
-        foreach( $data as $key => $value ) {
-            if( is_numeric($key) ){
-                $key = 'item'.$key;
-            }
-            if( is_array($value) ) {
-                $subnode = $xmlData->addChild($key);
-                $this->arrayToXml($value, $subnode);
-            } else {
-                $xmlData->addChild("$key",htmlspecialchars("$value"));
-            }
-         }
-    }
-    
+    }    
 }

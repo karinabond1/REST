@@ -2,7 +2,7 @@
 
 include ('Sql.php');
 
-class Cars
+class Shop
 {
     private $sql;
 
