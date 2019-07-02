@@ -62,14 +62,14 @@ class Sql
         $cars = array();
         $result = array();
         //var_dump($obj);
-        echo "<br><br>";
+        //echo "<br><br>";
         $sql = "SELECT autoshop_cars.id,autoshop_cars.model, autoshop_brand.brand FROM autoshop_cars inner join autoshop_brand on autoshop_cars.brand_id=autoshop_brand.id WHERE autoshop_cars.year_issue=?";
         $par[] = $year;
-        if ($brand != '') {
+        if ($brand != '1') {
             $sql .= " AND autoshop_brand.brand=?";
             $par[] = $brand;
         }
-        if ($model != '') {
+        if ($model != '1') {
             $sql .= " AND autoshop_cars.model=?";
             $par[] = $model;
         }
@@ -101,7 +101,7 @@ class Sql
             $indexCar++;
         }
         $carsId = array();
-        if ($color != '') {
+        if ($color != '1') {
             $selectColor = $this->mysql->prepare("SELECT autoshop_car_color.car_id FROM autoshop_car_color INNER JOIN autoshop_color ON autoshop_car_color.color_id=autoshop_color.id WHERE autoshop_color.color = ?");
             $parC[] = $color;
             $selectColor->execute($parC);
@@ -124,8 +124,12 @@ class Sql
         }
     }
 
-    public function postBuy($car_id, $name, $surname, $payment)
+    public function postBuy($arr)
     {
+        $car_id = $arr['car_id'];
+        $name = $arr['name'];
+        $surname = $arr['surname']; 
+        $payment = $arr['car_id'];
         $res = array();
         $sendCarInfo = $this->mysql->prepare("INSERT INTO autoshop_client_order (car_id,name,surname,payment) VALUES(?,?,?,?);");
         $par[] = $car_id;
@@ -134,9 +138,45 @@ class Sql
         $par[] = $payment;
         $res = $sendCarInfo->execute($par);
         if ($res) {
-            return 'yes';
+            //return 'yes';
+            return array('yes');
         } else {
-            return 'no';
+            //return 'no';
+            return array('no');
+        }
+    } 
+
+
+    public function postUser($name,$surname,$email,$password)
+    {
+        /*$name = $arr['name'];
+        $surname = $arr['surname']; 
+        $email = $arr['email'];
+        $password = $arr['password'];*/
+        $status = 'offline';
+        /*$car_id = $_POST['car_id'];
+        $name = $_POST['name'];
+        $surname = $_POST['surname']; 
+        $email = $_POST['email'];
+        $password = $_POST['password'];*/
+        $res = array();
+        $sendCarInfo = $this->mysql->prepare("INSERT INTO autoshop_user (name,surname,email,password,status) VALUES(?,?,?,?,?);");
+        /*$par[] = $_REQUEST['name'];
+        $par[] = $_REQUEST['surname'];
+        $par[] = $_REQUEST['email'];
+        $par[] = $_REQUEST['password'];*/
+        $par[] = $name;
+        $par[] = $surname;
+        $par[] = $email;
+        $par[] = $password;
+        $par[] = $status;
+        $res = $sendCarInfo->execute($par);
+        if ($res) {
+            //return 'yes';
+            return array('yes');
+        } else {
+            //return 'no';
+            return array('no');
         }
     } 
 }

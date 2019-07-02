@@ -7,8 +7,7 @@ class Viewer
     public function view($res, $view)
     {
         if(!$view){
-            $view=JSON;
-        }
+            $view=JSON;        }
         if($view=='.json'){
             $this->makeJson($res);
         }elseif($view=='.txt'){
@@ -17,17 +16,20 @@ class Viewer
             $this->makeXml($res);
         }elseif($view=='.html'){
             $this->makeHtml($res);
+        }else{
+            $this->makeJson($res);
         }
     }
 
     private function makeJson($arr)
     {
+        //header('Content-Type: application/json; charset=utf-8');
         echo json_encode($arr);
     }
 
     private function makeTxt($arr)
     {
-        print_r($arr);
+        echo '<pre>',print_r($arr),'</pre>';
     }
 
     private function makeXml($arr)
@@ -36,6 +38,7 @@ class Viewer
         $xmlData = new SimpleXMLElement('<?xml version="1.0"?><car></car>');
         $this->arrayToXml($arr,$xmlData);
         $result = $xmlData->asXML();
+ 	    header('Content-Type: application/xml; charset=utf-8');
         echo $result;
     }
 

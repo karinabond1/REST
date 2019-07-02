@@ -1,0 +1,7 @@
+CREATE TABLE `autoshop_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` varchar(255) NOT NULL,
+  `surname` int(4) NOT NULL,
+  `email` int(11) NOT NULL,
+  `password` varchar(96) NOT NULL,
+  `status` ENUM('online', 'offline'));

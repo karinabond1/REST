@@ -25,7 +25,8 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="">Home</a></li>
+                <li class="active"><a href="#author">Authorization</a></li>
                 <li class="active"><a href="#search">Search</a></li>
                 <li class="active"><a href="#autos">Autos</a></li>
             </ul>
@@ -33,24 +34,62 @@
     </div>
 </div>
 
+<div id="author" class="gen">
+    <div class="container">
+        <div class="row centered">
+            <div class="col-lg-12">
+                <h3>If you want to buy an auto, you need to register or log in!</h3>
+                <div class="col-lg-6">
+                        <h3>Registration!</h3>
+                    <form class="navbar-form navbar-center" role="search" method="post" name="reg_form" id="reg_form">
+                        <div class="form-group">
+                            Name <input type="text" class="form-control" value="" id="name" name="name" placeholder="Name" /required><br><br>
+                            Surname <input type="text" class="form-control" value="" id="surname" name="surname" placeholder="Surname" /required><br><br>
+                            Email <input type="email" class="form-control" value="" id="email" name="email" placeholder="Email" /required><br><br>
+                            Password <input type="password" class="form-control" value="" id="password" name="password" placeholder="Password" /required><br><br>
+                            <!--<button type="button" class="btn btn-default" id="btn_search">Search</button>-->
+                            <input type="button" value="Register" class="btn btn-default" id="btn_reg">
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="col-lg-6">
+                        <h3>Log in!</h3>
+                    <form class="navbar-form navbar-center" role="search" method="get" name="log_form" name="log_form" id="log_form">
+                        <div class="form-group">
+                            Email <input type="email" class="form-control" value="" id="email_log" name="email" placeholder="Email" /required><br><br>
+                            Password <input type="password" class="form-control" value="" id="password_log" name="password" placeholder="Password" /required><br><br>
+                            <!--<button type="button" class="btn btn-default" id="btn_search">Search</button>-->
+                            <input type="button" value="Log in" class="btn btn-default" id="btn_log">
+                        </div>
+                    </form>
+            </div>
+        
+    </div>
+</div>
+</div>
+</div>
+
 <div id="search" class="gen">
     <div class="container">
         <div class="row centered">
             <h3>Search Auto for yourself</h3>
             <div class="col-lg-12">
-                <form class="navbar-form navbar-center" role="search" method="post">
+                <form class="navbar-form navbar-center" role="search" method="get" name="contact_form">
                     <div class="form-group">
-                        <input type="text" class="form-control" value="" name="brand" placeholder="Brand">
-                        <input type="text" class="form-control" value="" name="model" placeholder="Model">
-                        <input type="number" class="form-control" value="" name="year_issue" placeholder="Year issue" required>
-                        <input type="number" class="form-control" value="" name="engin_capacity" placeholder="Engine capacity">
-                        <input type="number" class="form-control" value="" name="max_speed" placeholder="Max speed">
-                        <input type="text" class="form-control" value="" name="color" placeholder="Color">
-                        <input type="number" class="form-control" value="" name="price_from" placeholder="Price From">
-                        <input type="number" class="form-control" value="" name="price_to" placeholder="Price To">
-                        <button type="submit" class="btn btn-default">Search</button>
+                        Brand <input type="text" class="form-control" value="" id="brand" name="brand" placeholder="Brand"><br><br>
+                        Model <input type="text" class="form-control" value="" id="model" name="model" placeholder="Model"><br><br>
+                        Year issue <input type="number" class="form-control" value="0" id="year_issue" name="year_issue" placeholder="Year issue" /required><br><br>
+                        Engine capacity <input type="number" class="form-control" value="0" id="engin_capacity" name="engin_capacity" placeholder="Engine capacity"><br><br>
+                        Max speed <input type="number" class="form-control" value="0" id="max_speed" name="max_speed" placeholder="Max speed"><br><br>
+                        Color <input type="text" class="form-control" value="" id="color" name="color" placeholder="Color"><br><br>
+                        Price from <input type="number" class="form-control" value="0" id="price_from" name="price_from" placeholder="Price From"><br><br>
+                        Price to <input type="number" class="form-control" value="0" id="price_to" name="price_to" placeholder="Price To"><br><br>
+                        <!--<button type="button" class="btn btn-default" id="btn_search">Search</button>-->
+                        <input type="button" value="Search" class="btn btn-default" id="btn_search">
                     </div>
                 </form>
+                <div  class="col-lg-12" id="carsSearch"> 
             </div>
         </div>
     </div>
@@ -61,7 +100,7 @@
         <div class="row centered">
             <h3>Autos</h3>
 
-            <div class="col-lg-12" id="carsId">               
+            <div  class="col-lg-12" id="carsId">               
                                       
             </div>
         </div>
@@ -83,59 +122,10 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="html/js/bootstrap.min.js"></script>
+<script src="html/js/main.js"></script>
 <script type='text/javascript'>
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-    <script>
-        (function($){
-            var url = window.location.href;
-            if(url.search('.json') || (!url.search('.json') && !url.search('.txt') && !url.search('.xml') && !url.search('.html'))){
-                ajaxJson(window.location.href+'api/shop/cars', function(data) {
-                    document.getElementById("carsId").innerHTML = data["carsId"];
-                    var html = "";
-                    if(Array.isArray(data)){
-                        for (var i=0; i < data.length; i++) {
-                            html += '<a href=?auto_id=' + data[i]["id"] + '> <button name="btn_car" class="btn btn-secondary"><h5>' + data[i]["brand"]+ " " + data[i]["model"] + "</h5></button></a>";
-                        }                        
-                    }else{
-                        html += "There is some problems. Please, try again later!";
-                    }
-                    document.getElementById("carsId").innerHTML = html;
-                });
-            }else if(url.search('.txt')){
-                ajaxTxt();
-            }
-            else if(url.search('.xml')){
-                ajaxXml();
-            }
-            else if(url.search('.html')){
-                ajaxHtml();
-            }
-
-            function ajaxJson(url, callback) {
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function() {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        console.log('responseText:' + xmlhttp.responseText);
-                        try {
-                            var data = JSON.parse(xmlhttp.responseText);
-                        } catch(err) {
-                            console.log(err.message + " in " + xmlhttp.responseText);
-                            return;
-                        }
-                        callback(data);
-                    }
-                };
-            
-                xmlhttp.open("GET", url, true);
-                xmlhttp.send();
-            }
-
-            
-
-        }(jQuery))
-    </script>
-
 
 </body>
 </html>

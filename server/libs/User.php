@@ -1,8 +1,8 @@
 <?php
 
-include ('Sql.php');
+include_once ('Sql.php');
 
-class Shop
+class User
 {
     private $sql;
 
@@ -11,7 +11,7 @@ class Shop
         $this->sql = new Sql();
     }
 
-    public function getCars()
+    /*public function getCars()
     {
         $cars = $this->sql->getCars();
         if($cars){
@@ -41,13 +41,13 @@ class Shop
         }else{
             return "There is some problem with search result. Please, try again later!";
         }
-    }
+    }*/
 
-    public function postBuy($arr)
+    public function postUser()
     {
-        $postBuy = $this->sql->postBuy($arr);
-        if($postBuy){
-            return $postBuy;
+        $postUser = $this->sql->postUser($_REQUEST['name'],$_REQUEST['surname'],$_REQUEST['email'],$_REQUEST['password']);
+        if($postUser){
+            return $postUser;
         }else{
             return "There is some problem with buying proccess. Please, try again later!";
         }

@@ -4,6 +4,7 @@ include ('../../libs/Server.php');
 
 $server = new Server();
 $server->methodChoose();
+
 //var_dump($cars);
 //echo $cars;
 /*$cars = $server->cars();
