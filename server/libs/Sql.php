@@ -124,17 +124,12 @@ class Sql
         }
     }
 
-    public function postBuy($arr)
+    public function postBuy($user_id,$payment)
     {
-        $car_id = $arr['car_id'];
-        $name = $arr['name'];
-        $surname = $arr['surname']; 
-        $payment = $arr['car_id'];
+
         $res = array();
-        $sendCarInfo = $this->mysql->prepare("INSERT INTO autoshop_client_order (car_id,name,surname,payment) VALUES(?,?,?,?);");
-        $par[] = $car_id;
-        $par[] = $name;
-        $par[] = $surname;
+        $sendCarInfo = $this->mysql->prepare("INSERT INTO autoshop_client_order (user_id,payment) VALUES(?,?);");
+        $par[] = $user_id;
         $par[] = $payment;
         $res = $sendCarInfo->execute($par);
         if ($res) {
@@ -149,34 +144,34 @@ class Sql
 
     public function postUser($name,$surname,$email,$password)
     {
-        /*$name = $arr['name'];
-        $surname = $arr['surname']; 
-        $email = $arr['email'];
-        $password = $arr['password'];*/
-        $status = 'offline';
-        /*$car_id = $_POST['car_id'];
-        $name = $_POST['name'];
-        $surname = $_POST['surname']; 
-        $email = $_POST['email'];
-        $password = $_POST['password'];*/
-        $res = array();
         $sendCarInfo = $this->mysql->prepare("INSERT INTO autoshop_user (name,surname,email,password,status) VALUES(?,?,?,?,?);");
-        /*$par[] = $_REQUEST['name'];
-        $par[] = $_REQUEST['surname'];
-        $par[] = $_REQUEST['email'];
-        $par[] = $_REQUEST['password'];*/
         $par[] = $name;
         $par[] = $surname;
         $par[] = $email;
         $par[] = $password;
-        $par[] = $status;
+        $par[] = 'offline';
         $res = $sendCarInfo->execute($par);
-        if ($res) {
-            //return 'yes';
-            return array('yes');
-        } else {
-            //return 'no';
-            return array('no');
+        if($res){
+            return "yes";
+        }else{
+            return "There is some problem with buying proccess. Please, try again later!";
         }
-    } 
+    }
+
+    public function getUserLog($arr)
+    {
+        $user = array();
+        $sendCarInfo = $this->mysql->prepare("SELECT id, name, surname FROM autoshop_user WHERE email='" . $arr[0] . "' AND password='" . $arr[1] . "';");
+        $sendCarInfo->execute();
+        $indexCars = 0;
+        while ($row = $sendCarInfo->fetch(PDO::FETCH_ASSOC)) {
+            $user[$indexCars] = $row;
+            $indexCars++;
+        }
+        if ($user) {
+            return $user;
+        } else {
+            return "There is some problem with buying proccess. Please, try again later!";
+        }
+    }
 }

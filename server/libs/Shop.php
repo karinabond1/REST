@@ -1,8 +1,9 @@
 <?php
 
-include ('Sql.php');
+include_once ('Sql.php');
+include_once ('Server.php');
 
-class Shop
+class Shop extends Server
 {
     private $sql;
 
@@ -15,41 +16,35 @@ class Shop
     {
         $cars = $this->sql->getCars();
         if($cars){
-            return $cars;
-        }else{
-            //echo "gg";
-            //return "There is some problem with cars. Please, try again later!";
-            return header("Location: ../errors.php");
+            return $this->response($cars, 200);
         }
+        return $this->response('Data not found', 404);
     }
 
     public function getCar($id)
     {
         $carInfo = $this->sql->getCar($id);
         if($carInfo){
-            return $carInfo;
-        }else{
-            return "There is some problem with car. Please, try again later!";            
+            return $this->response($carInfo, 200);
         }
+        return $this->response('Data not found', 404);
     }
 
-    public function getSearchResult($brand, $model, $year, $engine, $speed, $color, $priceFrom, $priceTo)
+    public function getSearchResult($arr)
     {
-        $info = $this->sql->getSearchResult($brand, $model, $year, $engine, $speed, $color, $priceFrom, $priceTo);
+        $info = $this->sql->getSearchResult($arr[0],$arr[1],$arr[2],$arr[3],$arr[4],$arr[5],$arr[6],$arr[7]);
         if($info){
-            return $info;
-        }else{
-            return "There is some problem with search result. Please, try again later!";
+            return $this->response($info, 200);
         }
+        return $this->response('Data not found', 404);
     }
 
-    public function postBuy($arr)
+    public function postBuy()
     {
-        $postBuy = $this->sql->postBuy($arr);
+        $postBuy = $this->sql->postBuy($_REQUEST['user_id'],$_REQUEST['payment']);
         if($postBuy){
-            return $postBuy;
-        }else{
-            return "There is some problem with buying proccess. Please, try again later!";
+            return $this->response($postBuy, 200);
         }
+        return $this->response('Data not found', 404);
     }
 }

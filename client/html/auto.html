@@ -11,20 +11,24 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <style>
-    
+
         .error input,
         .error textarea {
-          border: 1px solid red;
+            border: 1px solid red;
         }
-    
+
         .error {
-          color: red;
+            color: red;
         }
+
         .no_errors {
-          color: black;
+            color: black;
         }
-        .descr { visibility: hidden; }
-        </style>
+
+        .descr {
+            visibility: hidden;
+        }
+    </style>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -36,11 +40,11 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">AUT<i class="far fa-circle" aria-hidden="true"></i>SH<i
-                        class="far fa-circle"></i>P </a>
+                    class="far fa-circle"></i>P </a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="http://192.168.0.15/~user14/REST/client/">Home</a></li>
+                <li class="active"><a href="http://gfl:8070/REST/client/">Home</a></li>
             </ul>
         </div>
     </div>
@@ -51,7 +55,7 @@
         <div class="row centered">
             <h3>Auto Information</h3>
             <div class="col-lg-12" id="carsId">
-                
+
 
             </div>
         </div>
@@ -62,19 +66,18 @@
     <div class="container">
         <div class="row centered">
             <h3>Here you can buy an auto!</h3>
-            
+
             <div class="col-lg-12">
-                <form id='myForm' name="contact_form" class="navbar-form navbar-center" role="search" method="" action="">
+                <form id='myForm' name="contact_form" class="navbar-form navbar-center" role="search" method=""
+                      action="">
                     <div class="form-group">
-                        <input type="text" name="car_id" class="descr" value="" id="id_hidden"><br>
-                        <input type="text" class="form-control rfield" name="name" placeholder="Name" id="name" >
-                        <input type="text" class="form-control rfield" name="surname" placeholder="Surname" id="surname" ><br><br>
+                        <input type="text" name="user_id" class="descr" value="" id="id_hidden"><br>
                         <div class="col-lg-12">
                             <input type="radio" id="money1" class="rfield"
-                                   name="payment" value="cash" >
+                                   name="payment" value="cash">
                             <label for="money1">Cash</label>
                             <input type="radio" id="money2" class="rfield"
-                                   name="payment" value="card" >
+                                   name="payment" value="card">
                             <label for="money2">Card</label>
                         </div>
                         <!--<button id="btn_id" type="submit" class=" btn btn-default" value="Buy" name="btn_buy"> Buy</button>-->
@@ -101,239 +104,6 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-
-<script>
-(function($){
-        /*$('#btn_id').click(function(){
-            if($("#myForm").checkValidity()) {
-                var name = $("#name").attr("value");
-                var surname = $("#surname").attr("value");
-                var payment = $('input[name=payment]:checked', '#myForm').val();
-                $('#myForm').attr('action', 'thank.html');
-                //your form execution code
-            }else console.log("invalid form");
-        });
-*/
-
-/*$("#btn_id").submit(function() {
-    $('#myForm').attr('action', 'thank.html');
-    console.log("ff");
-});*/
-
-var str = window.location.search;
-var strArray = str.split('=');
-
-$('#btn_buy').click(function() {
-    valid = true;
-    if ( document.contact_form.name.value == "" || document.contact_form.surname.value == "" || document.contact_form.payment.value == "")
-    {
-        
-        alert ( "Please, fill all the fields.");
-        valid = false;
-    }
-    if(valid){
-        /*var name = document.getElementById('name').value;
-        var surname = document.getElementById('surname').value;
-        if (document.getElementById('money1').checked) {
-            payment = document.getElementById('money1').value;
-        }else if(document.getElementById('money2').checked){
-            payment = document.getElementById('money2').value;
-        }*/
-        $('#id_hidden').attr('value', strArray[1]);
-        var formData = $('#myForm').serializeArray();
-        console.log(formData);
-        
-        if($.post( "http://192.168.0.15/~user14/REST/client/api/shop/buy/", { arr:  formData} )){
-            console.log("Horrey)");
-        }
-        $('#btn_buy').attr('type', 'submit');
-        $('#myForm').attr('action', 'thank.html');
-        
-        //alert('thanks for buy');
-        /*ajaxJson('http://192.168.0.15/~user14/REST/client/api/shop/buy/',"POST", function(data) {
-            console.log(data);  
-            alert('thanks for bue');
-                
-        });*/
-        
-    }
-});
-
-
-/*function validate_form()
-{
-	valid = true;
-    if ( document.contact_form.name.value == "" || document.contact_form.surname.value == "" || document.contact_form.payment.value == "")
-    {
-        
-        alert ( "Пожалуйста заполните все поля.");
-        valid = false;
-    }
-    if(valid){
-        var name = document.getElementById('name').value
-        var surname = document.getElementById('surname').value
-        if (document.getElementById('money1').checked) {
-            payment = document.getElementById('money1').value;
-        }else if(document.getElementById('money2').checked){
-            payment = document.getElementById('money2').value;
-        }
-        $('#id_hidden').attr('value', strArray[1]);
-        $('#btn_buy').attr('type', 'submit');
-        $('#myForm').attr('action', 'thank.html');
-        //alert('thanks for buy');
-        ajaxJson('http://192.168.0.15/~user14/REST/client/api/shop/buy/',"POST", function(data) {
-            console.log(data);  
-            alert('thanks for bue');
-                
-        });
-        
-    }
-}
-*/
-
-        
-        
-        
-            ajaxJson('http://192.168.0.15/~user14/REST/client/api/shop/car/'+strArray[1],"GET", function(data) {
-                document.getElementById("carsId").innerHTML = data["carsId"];
-                var html = "";
-                if(Array.isArray(data)){
-                    //for (var i=0; i < data.length; i++) {
-                        html += '<p> Brand - ' + data[0]["brand"] + '</p>';
-                        html += '<p> Model - ' + data[0]["model"] + '</p>';
-                        html += '<p> Year issue - ' + data[0]["year_issue"] + '</p>';
-                        html += '<p> Engine capacity - ' + data[0]["engin_capacity"] + '</p>';
-                        html += '<p> Max speed - ' + data[0]["max_speed"] + '</p>';
-                        html += '<p> Price - ' + data[0]["price"] + '</p>';
-                        html += '<p> Color - ' + data[1]["color"] + '</p>';
-                    //}                        
-                }else{
-                    html += "There is some problems. Please, try again later!";
-                }
-                document.getElementById("carsId").innerHTML = html;
-            });
-        
-
-        function ajaxJson(url, method, callback) {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                    console.log('responseText:' + xmlhttp.responseText);
-                    try {
-                        var data = JSON.parse(xmlhttp.responseText);
-                    } catch(err) {
-                        console.log(err.message + " in " + xmlhttp.responseText);
-                        return;
-                    }
-                    callback(data);
-                }
-            };
-        
-            xmlhttp.open(method, url, true);
-            xmlhttp.send();
-        }
-
-        /*function showError(container, errorMessage) {
-            container.className = 'error';
-            var msgElem = document.createElement('span');
-            msgElem.className = "error-message";
-            msgElem.innerHTML = errorMessage;
-            container.appendChild(msgElem);
-        }
-
-        function resetError(container) {
-        container.className = 'no_errors';
-            
-        }
-
-        function validate(form) {
-            var elems = form.elements;
-
-            resetError(elems.name.parentNode);
-            if (!elems.name.value) {
-                showError(elems.name.parentNode, ' Enter a name.');
-            }
-
-            resetError(elems.surname.parentNode);
-            if (!elems.surname.value) {
-                showError(elems.surname.parentNode, ' Enter a surname.');
-            } 
-
-            resetError(elems.payment.parentNode);
-            if (!elems.payment.value) {
-                showError(elems.payment.parentNode, ' Enter a method of payment.');
-            }
-
-        }*/
-
-        
-
-        /*$(function() {
-
-        $('#myForm').each(function(){
-            // Объявляем переменные (форма и кнопка отправки)
-            var form = $(this),
-                btn = form.find('#btn_id');
-
-            // Добавляем каждому проверяемому полю, указание что поле пустое
-            form.find('.rfield').addClass('empty_field');
-
-            // Функция проверки полей формы
-            function checkInput(){
-                form.find('.rfield').each(function(){
-                    if($(this).val() != ''){
-                        // Если поле не пустое удаляем класс-указание
-                        $(this).removeClass('empty_field');
-                    } else {
-                        // Если поле пустое добавляем класс-указание
-                        $(this).addClass('empty_field');
-                    }
-                });
-            }
-
-            // Функция подсветки незаполненных полей
-            function lightEmpty(){
-                form.find('.empty_field').css({'border-color':'#d8512d'});
-                // Через полсекунды удаляем подсветку
-                setTimeout(function(){
-                    form.find('.empty_field').removeAttr('style');
-                },500);
-            }
-
-            // Проверка в режиме реального времени
-            setInterval(function(){
-                // Запускаем функцию проверки полей на заполненность
-                checkInput();
-                // Считаем к-во незаполненных полей
-                var sizeEmpty = form.find('.empty_field').size();
-                // Вешаем условие-тригер на кнопку отправки формы
-                if(sizeEmpty > 0){
-                    if(btn.hasClass('disabled')){
-                        return false
-                    } else {
-                        btn.addClass('disabled')
-                    }
-                } else {
-                    btn.removeClass('disabled')
-                }
-            },500);
-
-            // Событие клика по кнопке отправить
-                btn.click(function(){
-                    if($(this).hasClass('disabled')){
-                        // подсвечиваем незаполненные поля и форму не отправляем, если есть незаполненные поля
-                        lightEmpty();
-                        return false
-                    } else {
-                    // Все хорошо, все заполнено, отправляем форму
-                        form.submit();
-                    }
-                });
-            });
-        });
-*/
-        
-}(jQuery))
-</script>
+<script src="js/auto.js"></script>
 </body>
 </html>

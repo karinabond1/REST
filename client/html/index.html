@@ -21,7 +21,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a class="navbar-brand" href="#">AUT<i class="far fa-circle" aria-hidden="true"></i>SH<i
-                        class="far fa-circle"></i>P </a>
+                    class="far fa-circle"></i>P </a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
@@ -37,37 +37,45 @@
 <div id="author" class="gen">
     <div class="container">
         <div class="row centered">
-            <div class="col-lg-12">
+            <div class="col-lg-12" >
+                <div id="hello"></div>
                 <h3>If you want to buy an auto, you need to register or log in!</h3>
                 <div class="col-lg-6">
-                        <h3>Registration!</h3>
-                    <form class="navbar-form navbar-center" role="search" method="post" name="reg_form" id="reg_form">
+                    <h3>Registration!</h3>
+                    <form class="navbar-form navbar-center" role="search" name="reg_form" id="reg_form">
                         <div class="form-group">
-                            Name <input type="text" class="form-control" value="" id="name" name="name" placeholder="Name" /required><br><br>
-                            Surname <input type="text" class="form-control" value="" id="surname" name="surname" placeholder="Surname" /required><br><br>
-                            Email <input type="email" class="form-control" value="" id="email" name="email" placeholder="Email" /required><br><br>
-                            Password <input type="password" class="form-control" value="" id="password" name="password" placeholder="Password" /required><br><br>
+                            Name <input type="text" class="form-control" value="" id="name" name="name"
+                                        placeholder="Name" /required><br><br>
+                            Surname <input type="text" class="form-control" value="" id="surname" name="surname"
+                                           placeholder="Surname" /required><br><br>
+                            Email <input type="email" class="form-control" value="" id="email" name="email"
+                                         placeholder="Email" /required><br><br>
+                            Password <input type="password" class="form-control" value="" id="password" name="password"
+                                            placeholder="Password" /required><br><br>
                             <!--<button type="button" class="btn btn-default" id="btn_search">Search</button>-->
                             <input type="button" value="Register" class="btn btn-default" id="btn_reg">
                         </div>
                     </form>
                 </div>
-                
+
                 <div class="col-lg-6">
-                        <h3>Log in!</h3>
-                    <form class="navbar-form navbar-center" role="search" method="get" name="log_form" name="log_form" id="log_form">
+                    <h3>Log in!</h3>
+                    <form class="navbar-form navbar-center" role="search" method="get" name="log_form" name="log_form"
+                          id="log_form">
                         <div class="form-group">
-                            Email <input type="email" class="form-control" value="" id="email_log" name="email" placeholder="Email" /required><br><br>
-                            Password <input type="password" class="form-control" value="" id="password_log" name="password" placeholder="Password" /required><br><br>
+                            Email <input type="email" class="form-control" value="" id="email_log" name="email_log"
+                                         placeholder="Email" /required><br><br>
+                            Password <input type="password" class="form-control" value="" id="password_log"
+                                            name="password_log" placeholder="Password" /required><br><br>
                             <!--<button type="button" class="btn btn-default" id="btn_search">Search</button>-->
                             <input type="button" value="Log in" class="btn btn-default" id="btn_log">
                         </div>
                     </form>
+                </div>
+
             </div>
-        
+        </div>
     </div>
-</div>
-</div>
 </div>
 
 <div id="search" class="gen">
@@ -77,55 +85,63 @@
             <div class="col-lg-12">
                 <form class="navbar-form navbar-center" role="search" method="get" name="contact_form">
                     <div class="form-group">
-                        Brand <input type="text" class="form-control" value="" id="brand" name="brand" placeholder="Brand"><br><br>
-                        Model <input type="text" class="form-control" value="" id="model" name="model" placeholder="Model"><br><br>
-                        Year issue <input type="number" class="form-control" value="0" id="year_issue" name="year_issue" placeholder="Year issue" /required><br><br>
-                        Engine capacity <input type="number" class="form-control" value="0" id="engin_capacity" name="engin_capacity" placeholder="Engine capacity"><br><br>
-                        Max speed <input type="number" class="form-control" value="0" id="max_speed" name="max_speed" placeholder="Max speed"><br><br>
-                        Color <input type="text" class="form-control" value="" id="color" name="color" placeholder="Color"><br><br>
-                        Price from <input type="number" class="form-control" value="0" id="price_from" name="price_from" placeholder="Price From"><br><br>
-                        Price to <input type="number" class="form-control" value="0" id="price_to" name="price_to" placeholder="Price To"><br><br>
+                        Brand <input type="text" class="form-control" value="" id="brand" name="brand"
+                                     placeholder="Brand"><br><br>
+                        Model <input type="text" class="form-control" value="" id="model" name="model"
+                                     placeholder="Model"><br><br>
+                        Year issue <input type="number" class="form-control" value="0" id="year_issue" name="year_issue"
+                                          placeholder="Year issue" /required><br><br>
+                        Engine capacity <input type="number" class="form-control" value="0" id="engin_capacity"
+                                               name="engin_capacity" placeholder="Engine capacity"><br><br>
+                        Max speed <input type="number" class="form-control" value="0" id="max_speed" name="max_speed"
+                                         placeholder="Max speed"><br><br>
+                        Color <input type="text" class="form-control" value="" id="color" name="color"
+                                     placeholder="Color"><br><br>
+                        Price from <input type="number" class="form-control" value="0" id="price_from" name="price_from"
+                                          placeholder="Price From"><br><br>
+                        Price to <input type="number" class="form-control" value="0" id="price_to" name="price_to"
+                                        placeholder="Price To"><br><br>
                         <!--<button type="button" class="btn btn-default" id="btn_search">Search</button>-->
                         <input type="button" value="Search" class="btn btn-default" id="btn_search">
                     </div>
                 </form>
-                <div  class="col-lg-12" id="carsSearch"> 
+                <div class="col-lg-12" id="carsSearch">
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="autos" class="gen">
-    <div class="container">
-        <div class="row centered">
-            <h3>Autos</h3>
-
-            <div  class="col-lg-12" id="carsId">               
-                                      
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<footer>
-    <div id="f">
+    <div id="autos" class="gen">
         <div class="container">
             <div class="row centered">
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-vk"></i></a>
+                <h3>Autos</h3>
+
+                <div class="col-lg-12" id="carsId">
+
+                </div>
             </div>
         </div>
     </div>
-</footer>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="html/js/bootstrap.min.js"></script>
-<script src="html/js/main.js"></script>
-<script type='text/javascript'>
-</script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+    <footer>
+        <div id="f">
+            <div class="container">
+                <div class="row centered">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="html/js/bootstrap.min.js"></script>
+    <script src="html/js/main.js"></script>
+    <script type='text/javascript'>
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 
 </body>
 </html>
